@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "build/dist",
-    "module": "esnext",
+    "module": "esnext",    //vsc tutorial says commonjs
     "target": "es5",
     "lib": ["es6", "dom"],
     "sourceMap": true,
@@ -16,7 +16,9 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    //matz adds
+    "typescript.reportStyleChecksAsWarnings": true
   },
   "exclude": [
     "node_modules",
