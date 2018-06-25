@@ -1,5 +1,4 @@
 // from https://github.com/Microsoft/TypeScript-React-Starter#typescript-react-starter
-// src/components/Hello.tsx
 
 import * as React from 'react';
 
