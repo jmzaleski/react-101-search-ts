@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-// temporary hack to see how to use random contributors .d.ts file
+// temporary experimenting with contributors' .d.ts file
 // See https://github.com/rawrmaan/restyped-giphy-api
 
 import * as giphy from '../giphy-temp/giphy-api'
