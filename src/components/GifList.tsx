@@ -1,5 +1,5 @@
 import * as React from 'react';
-import GifItem from './GifItem';
+import {GifItem} from './GifItem';
 import * as giphy from '../giphy-temp/giphy-api'
 
 type tOnGifSelectCallback = (gifobj: giphy.GIFObject) => any;
@@ -8,14 +8,14 @@ type tOnGifSelectCallback = (gifobj: giphy.GIFObject) => any;
 // 1. GIFObject as retured from the giphy search endpoint
 // 2. a function to call back when the gifitem is clicked
 
-interface IGifListProps {
+export interface IGifListProps {
     gifobjs: giphy.GIFObject[],        // TODO: does react define an inteface for Gif?
     onGifSelectCallback: tOnGifSelectCallback
     };
 
 // GifList component displays list of GifItems
 
-function GifList( props: IGifListProps) {
+export function GifList( props: IGifListProps) {
     const gifItems = props.gifobjs.map( (gifobj) => {
         return <GifItem key={gifobj.id} gifobj={gifobj} onGifSelectCallback={props.onGifSelectCallback}/>
     });
@@ -23,5 +23,3 @@ function GifList( props: IGifListProps) {
         <div className="gif-list">{gifItems}</div>
     );
 };
-
-export default GifList;

@@ -3,9 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/react-modal": "^3.1.2",
+    "@types/superagent": "^3.8.1",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-modal": "^3.4.5",
     "react-scripts-ts": "2.16.0",
+    "superagent": "^3.8.3",
     "ts-node": "^6.1.2"
   },
   "scripts": {

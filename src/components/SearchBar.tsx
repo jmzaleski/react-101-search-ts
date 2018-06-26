@@ -1,4 +1,3 @@
-//import React, {Component} from 'react';
 import * as React from 'react';
 
 // SearchBar state is the "term" the string to be searched for.
@@ -6,21 +5,20 @@ import * as React from 'react';
 // the search term has changed.
 // It has state in that it hangs on to the search term (term)
 
-type tOnInputChangeCallback = (newSearchTerm: string) => any;
+export type tOnInputChangeCallback = (newSearchTerm: string) => any;
 
-interface ISearchBarProps {
-    term: string,
+export interface ISearchBarProps {
     onInputChange: tOnInputChangeCallback
 }
 interface ISearchBarState {
     term: string
 }
 
-class SearchBar extends React.Component<ISearchBarProps, ISearchBarState> {    
+export class SearchBar extends React.Component<ISearchBarProps, ISearchBarState> {    
 
     constructor(props: ISearchBarProps) {
         super(props)
-        var initialState: ISearchBarState = {term: props.term};
+        var initialState:ISearchBarState = {term: 'xxx'};
         this.setState(initialState); 
     }
     onInputChange(term:string) {
@@ -36,5 +34,3 @@ class SearchBar extends React.Component<ISearchBarProps, ISearchBarState> {
         );
     }
 }
-
-export default SearchBar;

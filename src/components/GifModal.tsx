@@ -1,45 +1,44 @@
-import React from 'react';
-import Modal from 'react-modal';
-import PropTypes from 'prop-types'; // for checking types of props
+import * as React from 'react';
+//import * as rm from  '@types/react-modal';
+//import * as rm from  'react-modal';
+//import ReactModal = require('@types/react-modal');
+//import {ReactModal} from 'react-modal';
+//import * as rm from './react-modal-api.ds';
+//import ReactModal from 'react-modal';
+import {ReactModal} from './react-modal-api';
+import * as giphy from '../giphy-temp/giphy-api';
 
-//connect up the props in react-model with the ones we made in app. (this feels bogus)
-const GifModal = (props) => {
-    if (!props.modalIsOpen){
+// props:
+// 1. modalIsOpen state of some parent telling if modal is posted currently or not
+// 2. selectedGiphyObj object describing a GIF returned from Giphy endpoint. state of some parent.
+// 3. onRequestCloseCallback: function (of some parent) to call when close button pressed
+
+type tOnInputChangeCallback = () => any;
+
+interface IGifModalProps {
+    modalIsOpen: boolean,
+    selectedGiphyObj: giphy.GIFObject | null,
+    onRequestCloseCallback: tOnInputChangeCallback,
+}
+
+// no state.
+
+export function GifModal(props: IGifModalProps) {
+    if (!props.modalIsOpen || props.selectedGiphyObj == null){
         return <div></div>
     }
-    console.assert(props.selectedGif !=null) //never modalIsOpen and selectedGif not set to gif!
+    console.assert(props.selectedGiphyObj !=null) //never modalIsOpen and selectedGif not set to gif!
     return (
-        <Modal
+        <ReactModal
             isOpen={ props.modalIsOpen }
-            onRequestClose={ () => props.onRequestClose() }>
+            onRequestClose={ () => props.onRequestCloseCallback() }>
             <div className={"gif-modal"}>
-                <img src={ props.selectedGif.images.original.url } alt={"foo"} />
-                <p><strong>Source:</strong> <a href={ props.selectedGif.source }>{ props.selectedGif.source }</a></p>
-                <p><strong>Rating:</strong> { props.selectedGif.rating }</p>
-                <button onClick={() => props.onRequestClose()}>close</button>
+                <img src={ props.selectedGiphyObj.images.original.url } alt={"foo"} />
+                <p><strong>Source:</strong> <a href={ props.selectedGiphyObj.source }>{ props.selectedGiphyObj.source }</a></p>
+                <p><strong>Rating:</strong> { props.selectedGiphyObj.rating }</p>
+                <button onClick={() => props.onRequestCloseCallback()}>close</button>
             </div>
-        </Modal>
+        </ReactModal>
     );
 };
 
-//investigate rudeness of debugging in presence of typos setting prop names
-GifModal.propTypes = {
-    modalIsOpen: PropTypes.bool.isRequired,//PropTypes.bool.isRequired,
-    onRequestClose: PropTypes.func.isRequired,
-    //challenge is that initializing selectedGif to null will cause any.isRequired to fail
-    //whereas below will pass.
-    selectedGif: function(props, propName, componentName) {
-        if (! (propName in props)){
-            return new Error('selectedGif prop must exist and be set (to null or a Gif). Validation failed.' );
-        }
-        var prop = props[propName]
-        if (prop == null ){
-            return; //null is okay when there is no modal
-        }
-        if (! prop.hasOwnProperty('source')){
-            return new Error(propName + ' prop must have field "source". You sure you passed a Gif?' +
-                ' Validation failed for:' + prop.toString());
-        }
-    }
-}
-export default GifModal;
