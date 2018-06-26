@@ -18,14 +18,11 @@ export class SearchBar extends React.Component<ISearchBarProps, ISearchBarState>
 
     constructor(props: ISearchBarProps) {
         super(props)
-        var initialState:ISearchBarState = {term: 'xxx'};
+        const initialState:ISearchBarState = {term: 'xxx'};
         this.setState(initialState); 
     }
-    onInputChange(term:string) {
-        this.setState({term});
-        this.props.onInputChange(term);
-    }
-    render() {
+    /* tslint:disable:jsx-no-lambda */
+    public render() {
         return (
             <div className="search">
                 <input placeholder="enter text to search giphy"
@@ -33,4 +30,9 @@ export class SearchBar extends React.Component<ISearchBarProps, ISearchBarState>
             </div>
         );
     }
+    private onInputChange(term:string) {
+        this.setState({term});
+        this.props.onInputChange(term);
+    }
+
 }

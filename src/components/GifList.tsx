@@ -1,6 +1,6 @@
 import * as React from 'react';
-import {GifItem} from './GifItem';
 import * as giphy from 'restyped-giphy-api';
+import {GifItem} from './GifItem';
 
 type tOnGifSelectCallback = (gifobj: giphy.GIFObject) => any;
 

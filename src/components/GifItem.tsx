@@ -19,9 +19,9 @@ export interface IGifItemProps {
 
 // TODO: what about that key prop? it's just floating around in GifItem. stuff it in alt.
 
-//function GifItem({gifobj, onGifSelectCallback,key}: IGifItemProps) {
 export function GifItem(props: IGifItemProps) {
     return (
+// tslint:disable-next-line jsx-no-lambda 
         <div className="gif-item" onClick={() => props.onGifSelectCallback(props.gifobj)}>
             <img src={props.gifobj.images.downsized.url} alt={props.key} />
         </div>

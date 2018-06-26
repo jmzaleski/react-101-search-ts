@@ -1,10 +1,4 @@
 import * as React from 'react';
-//import * as rm from  '@types/react-modal';
-//import * as rm from  'react-modal';
-//import ReactModal = require('@types/react-modal');
-//import {ReactModal} from 'react-modal';
-//import * as rm from './react-modal-api.ds';
-//import ReactModal from 'react-modal';
 import * as ReactModal from 'react-modal';
 import * as giphy from 'restyped-giphy-api';
 
@@ -25,10 +19,11 @@ interface IGifModalProps {
 
 export function GifModal(props: IGifModalProps) {
     if (!props.modalIsOpen || props.selectedGiphyObj == null){
-        return <div></div>
+        return <div>self-closing what? </div>
     }
-    console.assert(props.selectedGiphyObj !=null) //never modalIsOpen and selectedGif not set to gif!
-    return (
+    // console.assert(props.selectedGiphyObj !=null) // never modalIsOpen and selectedGif not set to gif!
+    /* tslint:disable */
+        return (
         <ReactModal
             isOpen={ props.modalIsOpen }
             onRequestClose={ () => props.onRequestCloseCallback() }>
