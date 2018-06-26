@@ -5,7 +5,7 @@ import * as React from 'react';
 //import {ReactModal} from 'react-modal';
 //import * as rm from './react-modal-api.ds';
 //import ReactModal from 'react-modal';
-import {ReactModal} from './react-modal-api';
+import * as ReactModal from 'react-modal';
 import * as giphy from 'restyped-giphy-api';
 
 // props:
