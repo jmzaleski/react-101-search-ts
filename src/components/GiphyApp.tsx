@@ -4,7 +4,7 @@ import {SearchBar} from './SearchBar';
 import {tOnInputChangeCallback} from './SearchBar';
 import {GifList} from './GifList';
 import {GifModal} from './GifModal';
-import * as giphy from '../giphy-temp/giphy-api'
+import * as giphy from 'restyped-giphy-api';
 import * as request from 'superagent';
 import './styles/app.css';
 

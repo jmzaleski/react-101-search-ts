@@ -6,7 +6,7 @@ import * as React from 'react';
 //import * as rm from './react-modal-api.ds';
 //import ReactModal from 'react-modal';
 import {ReactModal} from './react-modal-api';
-import * as giphy from '../giphy-temp/giphy-api';
+import * as giphy from 'restyped-giphy-api';
 
 // props:
 // 1. modalIsOpen state of some parent telling if modal is posted currently or not

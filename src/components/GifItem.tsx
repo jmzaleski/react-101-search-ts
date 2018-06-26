@@ -3,7 +3,7 @@ import * as React from 'react';
 // temporary experimenting with contributors' .d.ts file
 // See https://github.com/rawrmaan/restyped-giphy-api
 
-import * as giphy from '../giphy-temp/giphy-api'
+import * as giphy from 'restyped-giphy-api';
 
 type tOnGifSelectCallback = (gifobj: giphy.GIFObject) => any;
 
