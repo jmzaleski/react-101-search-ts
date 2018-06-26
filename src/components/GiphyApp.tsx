@@ -2,23 +2,21 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as giphy from 'restyped-giphy-api';
 import * as request from 'superagent';
-import { GifList } from './GifList';
-import { GifModal } from './GifModal';
-import { SearchBar/*, tOnInputChangeCallback*/ } from './SearchBar';
+import { GifList, tOnGifSelectCallback } from './GifList';
+import { GifModal, tModalCloseCallback } from './GifModal';
+import { SearchBar, tOnInputChangeCallback } from './SearchBar';
 
 // import './styles/app.css';
 
 // state of the GifModalApp components is a list of gifs
 // and the pair, modelIsOpen and selectedGif, which specify one of the gifs as selected.
 // there are no props.
-
-// interface IGiphyAppProps {}
 interface IGiphyAppState {
     modalIsOpen: boolean,
     giphyObjs: giphy.GIFObject[]
     selectedGiphyObj: giphy.GIFObject | null
 }
-// export class GiphyApp extends React.Component<IGiphyAppProps,IGiphyAppState> {
+
 export class GiphyApp extends React.Component<{},IGiphyAppState> {
     constructor(props: {}) {
         super(props);
@@ -28,21 +26,24 @@ export class GiphyApp extends React.Component<{},IGiphyAppState> {
             selectedGiphyObj: null, // gif user hasn't clicked one yet.
         }
     }
-    
-    public render(){
-        // const xx: tOnInputChangeCallback = this.handleTermChange; // make sure sig matches. must be prettier way..
-        /* tslint:disable */
+
+    public render() {
+        // this hocus pocus to avoid coding lambda's in JSX, which tslint rejects as inefficient.
+        const handleTermChangeClosure: tOnInputChangeCallback = (term:string) => this.handleTermChange(term);
+        const openModalClosure: tOnGifSelectCallback          = (gifObj: giphy.GIFObject) => this.openModal(gifObj);
+        const closeModalClosure: tModalCloseCallback          = () => this.closeModal();
         return (
             <div>
-                <SearchBar onInputChange = {(term:string) => this.handleTermChange(term)} />
-                <GifList gifobjs={this.state.giphyObjs}
-                         onGifSelectCallback = {(selectedGiphyObj:giphy.GIFObject) => this.openModal(selectedGiphyObj)} />
+                <SearchBar onInputChange = {handleTermChangeClosure} />
+                <GifList  gifobjs={this.state.giphyObjs}
+                          onGifSelectCallback = {openModalClosure} />
                 <GifModal modalIsOpen        = {this.state.modalIsOpen}
                           selectedGiphyObj   = {this.state.selectedGiphyObj}
-                          onRequestCloseCallback = { () => this.closeModal() } />
+                          modalCloseCallback = { closeModalClosure } />
             </div>
         );
     }
+    
     private openModal(giphyObj: giphy.GIFObject) {
         this.setState({
             modalIsOpen: true,
@@ -55,7 +56,7 @@ export class GiphyApp extends React.Component<{},IGiphyAppState> {
             selectedGiphyObj: null
         })
     }
-    // when search term changes
+    // when search term changes, change the state of this component.
     private handleTermChange(term:string) : void {
         // concoct a giphy search URL from term
         const url = `http://api.giphy.com/v1/gifs/search?q=${term.replace(/\s/g, '+')}&api_key=dc6zaTOxFJmzC`;
@@ -63,8 +64,6 @@ export class GiphyApp extends React.Component<{},IGiphyAppState> {
             this.setState({giphyObjs: res.body.data})
         });
     }
-
 }
-
 
 ReactDOM.render(<GiphyApp />, document.getElementById('root'));

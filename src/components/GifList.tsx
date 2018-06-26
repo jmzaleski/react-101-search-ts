@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as giphy from 'restyped-giphy-api';
 import {GifItem} from './GifItem';
 
-type tOnGifSelectCallback = (gifobj: giphy.GIFObject) => any;
+export type tOnGifSelectCallback = (gifobj: giphy.GIFObject) => any;
 
 // The GifItem component takes two props from its parent
 // 1. GIFObject as retured from the giphy search endpoint
@@ -12,8 +12,6 @@ export interface IGifListProps {
     gifobjs: giphy.GIFObject[],        // TODO: does react define an inteface for Gif?
     onGifSelectCallback: tOnGifSelectCallback
     };
-
-// GifList component displays list of GifItems
 
 export function GifList( props: IGifListProps) {
     const gifItems = props.gifobjs.map( (gifobj) => {

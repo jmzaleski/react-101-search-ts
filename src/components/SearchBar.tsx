@@ -5,34 +5,34 @@ import * as React from 'react';
 // the search term has changed.
 // It has state in that it hangs on to the search term (term)
 
-export type tOnInputChangeCallback = (newSearchTerm: string) => any;
+export type tOnInputChangeCallback = (newSearchTerm: string) => any; 
+export type tOnEditCallback = (event: any) => void;
 
+// one prop: callback from parent component to inform when search term has changed
 export interface ISearchBarProps {
-    onInputChange: tOnInputChangeCallback
+    onInputChange: tOnInputChangeCallback 
 }
+// state is the current search term.
 interface ISearchBarState {
     term: string
 }
 
 export class SearchBar extends React.Component<ISearchBarProps, ISearchBarState> {    
-
     constructor(props: ISearchBarProps) {
         super(props)
-        const initialState:ISearchBarState = {term: 'xxx'};
-        this.setState(initialState); 
+        this.setState({term: ''}); 
     }
-    /* tslint:disable:jsx-no-lambda */
     public render() {
+        // tslint complains if have lambda expr in JSX
+        const oicb: tOnEditCallback   =  (event:any) => this.onInputChange(event.target.value);
         return (
-            <div className="search">
-                <input placeholder="enter text to search giphy"
-                       onChange={event => this.onInputChange(event.target.value)} />
+            <div className="search"> 
+                <input placeholder="enter text to search giphy" onChange={oicb} />
             </div>
         );
     }
-    private onInputChange(term:string) {
+    private onInputChange(term:string) : void {
         this.setState({term});
         this.props.onInputChange(term);
     }
-
 }

@@ -7,31 +7,32 @@ import * as giphy from 'restyped-giphy-api';
 // 2. selectedGiphyObj object describing a GIF returned from Giphy endpoint. state of some parent.
 // 3. onRequestCloseCallback: function (of some parent) to call when close button pressed
 
-type tOnInputChangeCallback = () => any;
+export type tModalCloseCallback = () => any;
 
 interface IGifModalProps {
     modalIsOpen: boolean,
     selectedGiphyObj: giphy.GIFObject | null,
-    onRequestCloseCallback: tOnInputChangeCallback,
+    modalCloseCallback: tModalCloseCallback
 }
 
 // no state.
 
 export function GifModal(props: IGifModalProps) {
     if (!props.modalIsOpen || props.selectedGiphyObj == null){
-        return <div>self-closing what? </div>
+        return <div>self-closing what? </div> // TODO: why doesn't it accept <div></div>
     }
-    // console.assert(props.selectedGiphyObj !=null) // never modalIsOpen and selectedGif not set to gif!
-    /* tslint:disable */
-        return (
+    // avoid lambdas in JSX because tslint fails
+    const modalCloseCallbackClosure : tModalCloseCallback =  () => props.modalCloseCallback(); 
+    
+    return (
         <ReactModal
             isOpen={ props.modalIsOpen }
-            onRequestClose={ () => props.onRequestCloseCallback() }>
+            onRequestClose={ modalCloseCallbackClosure }>
             <div className={"gif-modal"}>
                 <img src={ props.selectedGiphyObj.images.original.url } alt={"foo"} />
                 <p><strong>Source:</strong> <a href={ props.selectedGiphyObj.source }>{ props.selectedGiphyObj.source }</a></p>
                 <p><strong>Rating:</strong> { props.selectedGiphyObj.rating }</p>
-                <button onClick={() => props.onRequestCloseCallback()}>close</button>
+                <button onClick={modalCloseCallbackClosure}>close</button>
             </div>
         </ReactModal>
     );

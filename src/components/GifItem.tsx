@@ -1,15 +1,15 @@
 import * as React from 'react';
 
-// temporary experimenting with contributors' .d.ts file
-// See https://github.com/rawrmaan/restyped-giphy-api
-
 import * as giphy from 'restyped-giphy-api';
 
 type tOnGifSelectCallback = (gifobj: giphy.GIFObject) => any;
+type tOnClickCallback = () => any;
 
 // The GifItem component takes two props from its parent
-// 1. GIFObject as retured from the giphy search endpoint
+// 1. GIFObject as returned from the giphy search endpoint
 // 2. a function to call back when the gifitem is clicked
+// 3. key. I'm not sure this is useful
+// TODO: what about that key prop? it's just floating around in GifItem. stuff it in alt.
 
 export interface IGifItemProps {
     gifobj: giphy.GIFObject,  
@@ -17,12 +17,11 @@ export interface IGifItemProps {
     key: string
     };
 
-// TODO: what about that key prop? it's just floating around in GifItem. stuff it in alt.
-
 export function GifItem(props: IGifItemProps) {
+    // avoid lambda's in JSX or tslint will reject
+    const onGifSelectCallbackClosure: tOnClickCallback = () => props.onGifSelectCallback(props.gifobj)
     return (
-// tslint:disable-next-line jsx-no-lambda 
-        <div className="gif-item" onClick={() => props.onGifSelectCallback(props.gifobj)}>
+        <div className="gif-item" onClick={onGifSelectCallbackClosure}>
             <img src={props.gifobj.images.downsized.url} alt={props.key} />
         </div>
     )
