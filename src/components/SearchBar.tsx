@@ -20,7 +20,7 @@ interface ISearchBarState {
 export class SearchBar extends React.Component<ISearchBarProps, ISearchBarState> {    
     constructor(props: ISearchBarProps) {
         super(props)
-        this.setState({term: ''}); 
+        this.state = {term: ''}; 
     }
     public render() {
         // tslint complains if have lambda expr in JSX
