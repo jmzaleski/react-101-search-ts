@@ -2,8 +2,8 @@ import * as React from 'react';
 
 import * as giphy from 'restyped-giphy-api';
 
-type tOnGifSelectCallback = (gifobj: giphy.GIFObject) => any;
-type tOnClickCallback = () => any;
+export type tOnGifSelectCallback = (gifobj: giphy.GIFObject) => any;
+export type tOnClickCallback = () => any;
 
 // The GifItem component takes two props from its parent
 // 1. GIFObject as returned from the giphy search endpoint
