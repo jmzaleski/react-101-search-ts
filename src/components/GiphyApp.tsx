@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 import * as giphy from 'restyped-giphy-api';
 import * as request from 'superagent';
 import { GifList, tOnGifSelectCallback } from './GifList';
@@ -65,5 +64,3 @@ export class GiphyApp extends React.Component<{},IGiphyAppState> {
         });
     }
 }
-
-ReactDOM.render(<GiphyApp />, document.getElementById('root'));
