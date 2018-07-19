@@ -1,21 +1,17 @@
 import * as React from 'react';
+import { GifItem, tOnGifSelectCallback } from './GifItem';
 import * as enzyme from 'enzyme';
-// import { GifItem, tOnClickCallback, tOnGifSelectCallback } from './GifItem';
- import { GifItem, tOnGifSelectCallback } from './GifItem';
 import * as giphy from 'restyped-giphy-api';
 import * as Adapter from 'enzyme-adapter-react-16';
 
 // our mock of a giphy GIFObject
-var mockGiphyGifObject:giphy.GIFObject;
+var mockGiphyGifObject: giphy.GIFObject;
+const MockedConstructor = jest.fn<giphy.GIFObject>(() => {
+    return { images: { downsized: { url: 'mockurl' } } }
+});
 
 beforeEach(() => {
-    // make a mock for the class of GIFObject.
-    const M = jest.fn<giphy.GIFObject>( () => {
-        var o: any = {images: {downsized: {url: 'mockurl'}}}
-        console.log(o);
-        return o;
-    });
-    mockGiphyGifObject = M();
+    mockGiphyGifObject = MockedConstructor();
     // console.log("mockgiphyobject:");
     // console.log(mockGiphyGifObject);
 });
@@ -39,8 +35,10 @@ describe('<GiphItem />', () => {
 describe('simulate click', () => {
     it('shallow render GifItem ', () => {
         var clickCount: number = 0;
+        var passedParm: giphy.GIFObject | null = null;
         const callbackForMock: tOnGifSelectCallback = (gifobj:giphy.GIFObject) => { 
             clickCount = clickCount+1; 
+            passedParm = gifobj;
             return null
         };
         enzyme.configure({ adapter: new Adapter() });
@@ -54,6 +52,9 @@ describe('simulate click', () => {
         // test that simulated click bumps clickCount. Zero before.. 1 after..
         expect(clickCount).toEqual(0);
         gifitem.find('[className="gif-item"]').simulate("click");
-        expect(clickCount).toEqual(1);
+        expect(clickCount).toEqual(1); // less crufty ways to do this using jest fancy stuff
+
+        // make sure that the mock GIFObject was passed to the callback
+        expect(passedParm).toEqual(mockGiphyGifObject);
     })
 });
