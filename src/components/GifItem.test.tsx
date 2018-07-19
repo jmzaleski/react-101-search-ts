@@ -1,36 +1,81 @@
-// import * as React from 'react';
-// import * as enzyme from 'enzyme';
+import * as React from 'react';
+import * as enzyme from 'enzyme';
 // import { GifItem, tOnClickCallback, tOnGifSelectCallback } from './GifItem';
-// import * as giphy from 'restyped-giphy-api';
+ import { GifItem, tOnGifSelectCallback } from './GifItem';
+import * as giphy from 'restyped-giphy-api';
+// import ReactSixteenAdapter from 'enzyme-adapter-react-16';
 
-// const mockGiphyGifObject: giphy.GIFObject = {
-//     type: "mock_string_value",
-//     id: "mock_string_value",
-//     slug: "mock_string_value",
-//     url: "mock_string_value",
-//     bitly_gif_url: "mock_string_value",
-//     bitly_url: "mock_string_value",
-//     embed_url: "mock_string_value",
-//     username: "mock_string_value",
-//     source: "mock_string_value",
-//     rating: "mock_string_value",
-//     caption: "mock_string_value",
-//     content_url: "mock_string_value",
-//     source_tld: "mock_string_value",
-//     source_post_url: "mock_string_value",
-//     import_datetime: "mock_string_value",
-//     trending_datetime: "mock_string_value",
-//     images: null,
-//     meta:{
-//         msg: "mock_string_value",
-//         status: 42,
-//         response_id: "mock_string_value",
-//       }
-//   }
-// it('renders image', () => {
-//     const cb: tOnGifSelectCallback = (gifobj:giphy.GIFObject) => null;
-//         const gifitem = enzyme.shallow(
-//             <GifItem gifobj={mockGiphyGifObject} onGifSelectCallback={cb} key={"foo"}/>
-//         );
-//     expect(gifitem.find(".greeting").text()).toEqual('Hello Daniel!')
-// });
+import * as Adapter from 'enzyme-adapter-react-16';
+
+
+// import { GifList, tOnGifSelectCallback } from './GifList';
+// import { SearchBar, tOnInputChangeCallback } from './SearchBar';
+
+// jest.mock('restyped-giphy-api');
+// const giphyMock= jest.genMockFromModule('restyped-giphy-api');
+// giphyMock.xx = () => null;
+
+// let xx: jest.Mock<string> = "foo";
+// let mockGiphyGifObject: giphy.GIFObject;
+// let o : giphyMockGIFObject = {};
+
+var mockGiphyGifObject:giphy.GIFObject;
+
+beforeEach(() => {
+    // make a mock for the class of GIFObject.
+    const M = jest.fn<giphy.GIFObject>( () => {
+        var o: any = {images: {downsized: {url: 'mockurl'}}}
+        console.log(o);
+        return o;
+    });
+    mockGiphyGifObject = M();
+    // console.log("mockgiphyobject:");
+    // console.log(mockGiphyGifObject);
+
+});
+    
+import * as ReactShallowRenderer from 'react-test-renderer/shallow'
+
+// shallow render to snapshot file
+// turns out the file is useful to snoop at to figure out selector (see next test)
+describe('<GiphItem />', () => {
+    const cb: tOnGifSelectCallback = (gifobj:giphy.GIFObject) => null;
+    it('renders', () => {
+      expect(ReactShallowRenderer.createRenderer().render(
+        <GifItem gifobj={mockGiphyGifObject} onGifSelectCallback={cb} key={"foo"}/>          
+      )).toMatchSnapshot()
+    })
+  });
+
+// shallow render GifItem and search in resulting virtual DOM to make sure 
+// that mock giphy image prop url has made it to URL of actual image node
+
+describe('xx', () => {
+    it('shallow render GifItem ', () => {
+        var cc: number = 0;
+        const cb: tOnGifSelectCallback = (gifobj:giphy.GIFObject) => { 
+            cc = cc+1; 
+            return null
+        };
+        enzyme.configure({ adapter: new Adapter() });
+        const gifitem = enzyme.shallow(
+            <GifItem gifobj={mockGiphyGifObject} onGifSelectCallback={cb} key={"foo"}/>
+            );
+        // console.log(gifitem.props());
+        // console.log(gifitem.html());
+        // query strings for find are called "selectors". There are lots of flavours.
+        // see: https://github.com/airbnb/enzyme/blob/master/docs/api/selector.md
+        console.log(gifitem.find('[src="mockurl"]').html());
+        // why oh why? expect(gifitem.contains('[src="mockurl"]')).toEqual(true);
+        // maybe different flavours of selectors for contain vs find ??
+        expect(gifitem.contains(<img src="mockurl"/> )).toEqual(true);
+        // console.log(gifitem.find('onClick').html());
+        console.log(gifitem.find('[className="gif-item"]').html());
+//        console.log(gifitem.find('[className="gif-item"]').prop("onClick").class);
+        console.log(gifitem.find('[className="gif-item"]').props());
+        console.log(cc);
+        expect(cc).toEqual(0);
+        console.log(gifitem.find('[className="gif-item"]').simulate("click"));
+        expect(cc).toEqual(1);
+    })
+});
