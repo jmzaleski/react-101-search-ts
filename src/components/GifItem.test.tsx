@@ -49,12 +49,7 @@ describe('simulate click', () => {
             );
         // query strings for find are called "selectors". There are lots of flavours.
         // see: https://github.com/airbnb/enzyme/blob/master/docs/api/selector.md
-        // console.log(gifitem.find('[src="mockurl"]').html());
-
         expect(gifitem.contains(<img src="mockurl"/> )).toEqual(true);
-        
-        // console.log(gifitem.find('[className="gif-item"]').html());
-        // console.log(gifitem.find('[className="gif-item"]').props());
 
         // test that simulated click bumps clickCount. Zero before.. 1 after..
         expect(clickCount).toEqual(0);
