@@ -19,9 +19,10 @@ interface IGifModalProps {
 
 export function GifModal(props: IGifModalProps) {
     if (!props.modalIsOpen || props.selectedGiphyObj == null){
-        return <div>self-closing what? </div> // TODO: why doesn't it accept <div></div>
+        return <div>.</div> // weirdly JSX fails to compile without the .
     }
-    // avoid lambdas in JSX because tslint fails
+    // we need to close over props. natural way would be to use a => in jsx
+    // but tslint says to avoid lambdas in JSX because of performance issues
     const modalCloseCallbackClosure : tModalCloseCallback =  () => props.modalCloseCallback(); 
     
     return (
