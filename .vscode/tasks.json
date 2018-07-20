@@ -11,7 +11,7 @@
         {
             "label": "compile with tsc and run yarn start",
             "type": "shell",
-            "command": "tsc --listfiles && yarn start",
+            "command": "tsc && yarn start",
             "problemMatcher": [
                 "$tsc"
             ],
@@ -24,6 +24,13 @@
             "type": "npm",
             "script": "test",
             "problemMatcher": []
+        },
+        {
+            "type": "typescript",
+            "tsconfig": "tsconfig.json",
+            "problemMatcher": [
+                "$tsc"
+            ]
         }
     ]
 }

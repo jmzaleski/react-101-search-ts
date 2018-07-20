@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<GiphItem /> renders 1`] = `
+<div
+  className="gif-item"
+  onClick={[Function]}
+>
+  <img
+    alt={undefined}
+    src="mockurl"
+  />
+</div>
+`;

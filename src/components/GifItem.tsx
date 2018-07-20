@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import * as giphy from 'restyped-giphy-api';
 
 // GifItem should pass giphy.GIFObject to handler when it is clicked
@@ -18,7 +17,7 @@ export interface IGifItemProps {
     };
 
 export function GifItem(props: IGifItemProps) {
-    type tOnClickCallback = () => any; //button click handler gets no parms
+    type tOnClickCallback = () => any; // button click handler gets no parms
 
     // avoid lambda's in JSX or tslint will reject, warning about performance issues
     const onGifSelectCallbackClosure: tOnClickCallback = () => props.onGifSelectCallback(props.gifobj)

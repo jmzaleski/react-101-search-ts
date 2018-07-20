@@ -1,9 +1,9 @@
-import * as React from 'react';
-import { GifItem, tOnGifSelectCallback } from './GifItem';
 import * as enzyme from 'enzyme';
-import * as giphy from 'restyped-giphy-api';
 import * as Adapter from 'enzyme-adapter-react-16';
-import * as ReactShallowRenderer from 'react-test-renderer/shallow'
+import * as React from 'react';
+import * as ReactShallowRenderer from 'react-test-renderer/shallow';
+import * as giphy from 'restyped-giphy-api';
+import { GifItem, tOnGifSelectCallback } from '../GifItem';
 
 // mock of a giphy.GIFObject
 const MockedConstructor = jest.fn<giphy.GIFObject>(() => {
@@ -11,9 +11,9 @@ const MockedConstructor = jest.fn<giphy.GIFObject>(() => {
 });
 
 // JSX translated GifItem
-var ele: any;
-var mockGiphyGifObject: giphy.GIFObject;
-var mockedCallbackForGifItem: jest.Mock<tOnGifSelectCallback>;
+let ele: any;
+let mockGiphyGifObject: giphy.GIFObject;
+let mockedCallbackForGifItem: jest.Mock<tOnGifSelectCallback>;
 
 beforeEach(() => {
     mockGiphyGifObject = MockedConstructor();
@@ -25,7 +25,6 @@ beforeEach(() => {
 // shallow render to snapshot file
 // turns out the file is useful to snoop at to figure out selector (see next test)
 describe('<GiphItem />', () => {
-    const cb: tOnGifSelectCallback = (gifobj:giphy.GIFObject) => null;
     it('renders', () => {
       expect(ReactShallowRenderer.createRenderer().render( ele )).toMatchSnapshot();
     })
